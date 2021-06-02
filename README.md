@@ -17,7 +17,7 @@ As the DAO expands and the Foundation recedes, this handbook will serve as a ver
 ### **The Purpose of Collateral Within the Maker Protocol**
 
 * **Increase Market Usage and Dai Demand:** The inclusion of diverse and desirable collateral types in the Maker Protocol increases market usage and, ultimately, the demand for the Dai stablecoin.
-* **Risk Mitigation:** Adding collateral assets to the Maker Protocol diversifies the collateral portfolio. reducing the portfolio risk inherent in relying heavily on a single collateral type and helping to maintain the stability of Dai.
+* **Risk Mitigation:** Adding collateral assets to the Maker Protocol diversifies the collateral portfolio, reducing the portfolio risk inherent in relying heavily on a single collateral type and helping to maintain the stability of Dai.
 * **Scaling:** Diversification also enables the Maker Protocol to scale-up Dai supply.
 
 ## **Content Directory** 
@@ -30,10 +30,10 @@ As the DAO expands and the Foundation recedes, this handbook will serve as a ver
    2. [Collateral Onboarding Community Collateral Onboarding Calls](https://collateral.makerdao.com/community-collateral-onboarding-calls)
    3. [Collateral Onboarding Prioritization Framework spreadsheet](https://collateral.makerdao.com/cob-prioritization-framework)
    4. [Collateral Onboarding Funding](https://collateral.makerdao.com/collateral-onboarding-funding-grants)
-3. \*\*\*\*[**Collateral Onboarding Governance Process**](https://collateral.makerdao.com/governance-and-collateral-onboarding/untitled)
-4. \*\*\*\*[**Collateral Onboarding Guide for Oracle Domain Teams**](https://collateral.makerdao.com/oracles-domain/untitled)
-5. \*\*\*\*[**Collateral Onboarding Guide for Smart Contracts Domain Teams**](https://collateral.makerdao.com/smart-contracts-domain/untitled)
-6. \*\*\*\*[**Collateral Risk Assessment Guide**](https://collateral.makerdao.com/risk-domain/untitled)
+3. [**Collateral Onboarding Governance Process**](https://collateral.makerdao.com/governance-and-collateral-onboarding/untitled)
+4. [**Collateral Onboarding Guide for Oracle Domain Teams**](https://collateral.makerdao.com/oracles-domain/untitled)
+5. [**Collateral Onboarding Guide for Smart Contracts Domain Teams**](https://collateral.makerdao.com/smart-contracts-domain/untitled)
+6. [**Collateral Risk Assessment Guide**](https://collateral.makerdao.com/risk-domain/untitled)
 7. **Resources** 
    1. [Collateral Onboarding Glossary](https://collateral.makerdao.com/resources/collateral-onboarding-glossary)
    2. [Resources List](https://collateral.makerdao.com/resources/resources-list)
