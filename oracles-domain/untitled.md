@@ -173,7 +173,7 @@ If the collateral isn’t traded directly to USD, supporting data models will be
 
 ## **7. Oracle Tooling Software Updates**
 
-Support of the new Data Model requires updating the off-chain software run by feeds and relayers. The two major pieces of software currently used are setzer and omnia. In the near future, a third software, gofer, will be used and will need to be updated for new collateral.
+Support of the new Data Model requires updating the off-chain software run by feeds and relayers. Three major pieces of software currently used, setzer, gofer and omnia. 
 
 ### **setzer**
 
@@ -319,6 +319,10 @@ $ bin/setzer price paxgusd probit
 1926.6460884486
 ```
 
+###gofer
+
+Gofer is another tool used to query the prices from the off-chain sources. If you don’t need to define new external APIs, no code update is needed and only a config change is required. See the section “Finalize and Publish Tooling Software Updates” below for the configuration updates required.
+
 ### omnia
 
 `omnia` is the script that periodically calls setzer to obtain price data. When it determines that the price it provided previously needs to be updated, it signs a message that is distributed using the scuttlebutt network.
@@ -384,7 +388,8 @@ contract MedianPAXGUSD is Median {
 }
 ```
 
-3. Compile with solc 0.5.12: `dapp --use solc:0.5.12 build`
+3. Update the dependencies: `dapp update`
+4. Compile with solc 0.5.12: `dapp --use solc:0.5.12 build`
 
 ### **Oracle Security Module \(OSM\)**
 
@@ -407,7 +412,7 @@ Set `ETH_RPC_URL` and `ETH_KEYSTORE` to point to the corresponding ethereum node
 
 ```text
 FEEDS=("0x1f8fbe73820765677e68eb6e933dcb3c94c9b708")
-seth send $MEDIAN "lift(address[] memory)" "[\"$(echo ${FEEDS[@]} | sed s/\ /\",\"/g)\"]"
+seth send $MEDIAN "lift(address[] memory)" "$(echo ${FEEDS[@]} | sed s/\ /\",\"/g)"
 ```
 
 5. Set the quorum \(i.e., the minimum number of feeds required to make the price valid\) in the data model. For the testing, set it to 1, as there is only one feed.
@@ -581,7 +586,7 @@ For mainnet, obtain the list of currently approved production light and dark fee
 FEEDS=("0x1f8fbe73820765677e68eb6e933dcb3c94c9b708")
 
 
-seth send $MEDIAN "lift(address[] memory)" "[\"$(echo ${FEEDS[@]} | sed s/\ /\",\"/g)\"]"
+seth send $MEDIAN "lift(address[] memory)" "$(echo ${FEEDS[@]} | sed s/\ /\",\"/g)"
 ```
 
 5. Set the quorum \(i.e., the minimum number of feeds required to make the price valid\) in the data model. Here, it is set to 13:
@@ -612,7 +617,13 @@ Etherscan should have already set correctly the Constructor Arguments, which is 
 seth send $MEDIAN "kiss(address)(uint256)" $OSM
 ```
 
-10. Enable read access to the Maker Protocol
+10. Add the Maker Governance DSPause Proxy as one of the owners of the contract (`MCD_PAUSE_PROXY` on [ changelog.makerdao.com](http://changelog.makerdao.com)).
+
+```text
+seth send $OSM "rely(address)" "0x0e4725db88Bb038bBa4C4723e91Ba183BE11eDf3"
+```
+
+11. Enable read access to the Maker Protocol
 
 This step enables read access for the MCD spotter contract, so it can access the prices. Set the address to `MCD_SPOT` from[ changelog.makerdao.com](http://changelog.makerdao.com)
 
@@ -648,11 +659,14 @@ seth send $MEDIAN "deny(address)" $ETH_FROM
 Because Omnia configuration depends on the availability of a specific setzer version and deployed mainnet contracts, we have to wait for the Setzer PR to be merged to mainnet and for the availability of a deployed median contract on mainnet.
 
 * Update `oracles-v2/nix/srcs.nix` to bump the setzer rev with the commit hash from the mainnet branch.
-* Update `oracles-v2/omnia/config/feed.conf` to point to the mainnet deployment of the Medianizer contract.
+* Update `oracles-v2/omnia/config/feed.conf`, `oracles-v2/omnia/config/relayer.conf` and `oracles-v2/omnia/config/relayer-kovan.conf` to point to the mainnet deployment of the Medianizer contract.
+* Update `oracles-v2/systemd/gofer.json` to add the data model for your new collateral. See the [gofer documentation](https://github.com/makerdao/oracle-suite/blob/master/cmd/gofer/README.md) for more details and examples.
 
 ## **12. Staging Tests**
 
 To ensure software stability and avoid dangerous oracle outages in production, it is necessary to run the new Oracle Software and deploy smart contracts for a period of 7 to 14 days on at least 4 feeds and 2 relayers on a testnet environment.
+
+To facilitate these steps, terraform configuration and deployment scripts are made available in a [dedicated repository](https://github.com/makerdao/oracle-deploy). These sample configuration and script allow for the quick and flexible deployment of testing environments using a cloud provider.
 
 The existing Oracle Team maintains an Oracle staging network on Kovan that can be used for this testing. Coordinate with the Oracle Team to join this network, or consider deploying your own.
 
